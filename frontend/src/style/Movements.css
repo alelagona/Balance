@@ -1,0 +1,28 @@
+table {
+    font-size: 1.3rem;
+    border-collapse:collapse;
+}
+
+thead {
+    background-color: var(--background-color-1);
+}
+
+tbody {
+    color: var(--primary-color-1);
+}
+
+td {
+    border: solid 1px var(--primary-color-1);
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+}
+
+.empty {
+    text-align: center;
+}
+
+.amount {
+    text-align: right;
+}

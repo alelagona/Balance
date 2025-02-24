@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+:root {
+    --background-color-0: #181818;
+    --background-color: #242424;
+    --background-color-1: #303030;
+    --primary-color: rgba(255, 255, 255, 0.90);
+    --primary-color-1: rgba(255, 255, 255, 0.70);
+}
+
+body {
+    margin: 0;
+    margin-bottom: 4rem;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    font-family: "Quicksand", serif;
+}

@@ -1,0 +1,24 @@
+header {
+    width: 100%;
+    background-color: var(--background-color-0);
+    height: 6.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    all: unset;
+    cursor: pointer;
+}
+
+.hl {
+    font-size: 4rem;
+    margin-left: 2rem;
+}
+
+.hr {
+    font-size: 1.3rem;
+    margin-right: 2rem;
+    text-decoration: underline;
+}
