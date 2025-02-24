@@ -44,3 +44,21 @@ app.get("/movements/:user_id/:year/:month", (req, res) => {
     return res.json(data);
   });
 });
+
+app.get("/categories/:user_id/:year/:month", (req, res) => {
+  const { user_id, year, month } = req.params;
+
+  const query = `
+    SELECT
+      category AS name,
+      COUNT(*) AS value
+    FROM
+      movements
+    GROUP BY
+      category
+  `;
+
+  db.execute(query, [user_id, year, month], (_, data) => {
+    return res.json(data);
+  });
+});

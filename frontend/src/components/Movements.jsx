@@ -12,6 +12,27 @@ function Movements() {
       });
   }, []);
 
+  const bodyRows =
+    movements.length > 0 ? (
+      movements.map((movement, index) => {
+        return (
+          <tr key={index}>
+            <td>{movement.date}</td>
+            <td>{movement.description}</td>
+            <td>{movement.category}</td>
+            <td className="amount">{"€" + movement.amount.toFixed(2)}</td>
+          </tr>
+        );
+      })
+    ) : (
+      <tr className="empty">
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+      </tr>
+    );
+
   return (
     <table>
       <thead>
@@ -22,28 +43,7 @@ function Movements() {
           <td>Importo</td>
         </tr>
       </thead>
-      <tbody>
-        {movements.length > 0 ? (
-          movements.map((movement, index) => {
-            console.log(movement);
-            return (
-              <tr key={index}>
-                <td>{movement.date}</td>
-                <td>{movement.description}</td>
-                <td>{movement.category}</td>
-                <td className="amount">{"€" + movement.amount.toFixed(2)}</td>
-              </tr>
-            );
-          })
-        ) : (
-          <tr className="empty">
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-          </tr>
-        )}
-      </tbody>
+      <tbody>{bodyRows}</tbody>
     </table>
   );
 }
