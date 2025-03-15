@@ -6,11 +6,12 @@
     --background-color-1: #303030;
     --primary-color: rgba(255, 255, 255, 0.90);
     --primary-color-1: rgba(255, 255, 255, 0.70);
+    min-height: 100vh;
+    position: relative;
 }
 
 body {
     margin: 0;
-    margin-bottom: 4rem;
     background-color: var(--background-color);
     color: var(--primary-color);
     font-family: "Quicksand", serif;
@@ -36,4 +37,9 @@ h3 {
     font-weight: normal;
     padding: 0;
     margin: 0;
+}
+
+.page-container {
+    padding-top: 10.5rem;
+    padding-bottom: 8rem;
 }

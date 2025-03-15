@@ -1,10 +1,33 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import "../style/Form.css";
 
 function Form({ register }) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if(register) {
+      const user = { name, surname, email, password };
+  
+      fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+    }
+  };
+
   return (
-    <>
-      <form>
+    <div className="page-container">
+      <form onSubmit={handleSubmit}>
         {register ? (
           <>
             <input
@@ -12,14 +35,18 @@ function Form({ register }) {
               name="nome"
               id="nome"
               placeholder="Nome"
-              required={true}
+              required
+              maxLength={50}
+              onChange={(e) => setName(e.target.value)}
             />
             <input
               type="text"
               name="cognome"
               id="cognome"
               placeholder="Cognome"
-              required={true}
+              required
+              maxLength={50}
+              onChange={(e) => setSurname(e.target.value)}
             />
           </>
         ) : null}
@@ -28,26 +55,32 @@ function Form({ register }) {
           name="email"
           id="email"
           placeholder="E-mail"
-          required={true}
+          required
+          onChange={(e) => setEmail(e.target.value)}
         />
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           name="password"
           id="password"
           placeholder="Password"
-          required={true}
+          onChange={(e) => setPassword(e.target.value)}
+          required
         />
         {register ? (
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="password-conf"
             id="password-conf"
             placeholder="Conferma password"
-            required={true}
+            required
           />
         ) : null}
         <div className="show-password-container">
-          <input type="checkbox" id="show-password" />
+          <input
+            type="checkbox"
+            id="show-password"
+            onClick={() => setShowPassword(!showPassword)}
+          />
           <label htmlFor="show-password">Mostra password</label>
         </div>
         {register ? (
@@ -55,7 +88,9 @@ function Form({ register }) {
             <input type="submit" value="Registrati" />
             <div className="under-submit-container">
               Hai già un account?
-              <Link to="/login" style={{ "padding-left": "0.4rem" }}>Accedi</Link>
+              <Link to="/login" style={{ paddingLeft: "0.4rem" }}>
+                Accedi
+              </Link>
             </div>
           </>
         ) : (
@@ -63,88 +98,15 @@ function Form({ register }) {
             <input type="submit" value="Accedi" />
             <div className="under-submit-container">
               Non hai ancora un account?
-              <Link to="/register" style={{"padding-left": "0.4rem"}}>Registrati</Link>
+              <Link to="/register" style={{ paddingLeft: "0.4rem" }}>
+                Registrati
+              </Link>
             </div>
           </>
         )}
       </form>
-    </>
+    </div>
   );
-}
-
-{
-  /*
-
-    <>
-    ,  <form>  
-        {login ?( <><input
-          type="text"
-          name="nome"
-          id="nome"
-          placeholder="Nome*"
-          required={true}
-        />
-        <input type="text" name="cognome" id="cognome" placeholder="Cognome" />
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="E-mail*"
-          required={true}
-        />
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password*"
-          required={true}
-        />
-        <div className="show-password-container">
-          <input
-            type="checkbox"
-            id="show-password"
-          />
-          <label htmlFor="show-password">Mostra password</label>
-        </div>
-        <input type="submit" value="Registrati" required={true} /> </>): null}
-      </form>
-      <div className="under-submit-container">Hai già un account? Accedi</div>
-        
-        <input
-          type="text"
-          name="nome"
-          id="nome"
-          placeholder="Nome*"
-          required={true}
-        />
-        <input type="text" name="cognome" id="cognome" placeholder="Cognome" />
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="E-mail*"
-          required={true}
-        />
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password*"
-          required={true}
-        />
-        <div className="show-password-container">
-          <input
-            type="checkbox"
-            id="show-password"
-          />
-          <label htmlFor="show-password">Mostra password</label>
-        </div>
-        <input type="submit" value="Registrati" required={true} />
-      </form>
-      <div className="under-submit-container">Hai già un account? Accedi</div>
-    </>
-  );
-}*/
 }
 
 export default Form;

@@ -1,6 +1,8 @@
 table {
   font-size: 1.3rem;
   border-collapse: collapse;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 thead {
@@ -28,24 +30,23 @@ td {
 }
 
 .chart {
-  width: 35rem;
-}
-
-.db-container {
   display: flex;
-  margin-top: 4rem;
+  width: 70%;
+  height: 100%;
+  align-items: center;
 }
 
-.db-container-child {
+.db-child {
   display: flex;
   justify-content: center;
+}
+
+.db-child:first-child {
+  flex: 0 0 55%;
   align-items: flex-start;
 }
 
-.db-container-child:first-child {
-  flex: 0 0 55%;
-}
-
-.db-container-child:nth-child(2) {
+.db-child:nth-child(2) {
   flex: 0 0 45%;
+  align-items: stretch;
 }

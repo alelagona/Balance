@@ -10,7 +10,7 @@ function Dashboard() {
   const [movements, setMovements] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/movements/1/2025/2")
+    fetch("http://localhost:3000/api/movements/1/2024/3")
       .then((res) => res.json())
       .then((data) => {
         data.length > 0 ? setMovements(data) : setMovements([]);
@@ -41,7 +41,7 @@ function Dashboard() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/summary/1/2025/2")
+    fetch("http://localhost:3000/api/catExpenses/1/2024/3")
       .then((res) => res.json())
       .then((data) => {
         data.length > 0 ? setCategories(data) : setCategories([]);
@@ -77,7 +77,7 @@ function Dashboard() {
       {
         data: categories.map((category) => category.value),
         backgroundColor: backgroundColors,
-        borderColor: "#ffffff",
+        borderColor: "#000000",
         borderWidth: 2,
       },
     ],
@@ -98,6 +98,28 @@ function Dashboard() {
       legend: {
         display: false,
       },
+      tooltip: {
+        bodyAlign: "right",
+        callbacks: {
+          label: function (tooltipItem) {
+            let total = tooltipItem.chart.data.datasets[0].data.reduce(
+              (acc, val) => acc + val,
+              0
+            );
+            let percentage = ((tooltipItem.raw / total) * 100).toFixed(1) + "%";
+            return [
+              `€${tooltipItem.raw.toFixed(2)}`,
+              `${percentage}`,
+            ];
+          },
+          title: () => "",
+        },
+        displayColors: false,
+        bodyFont: {
+          size: 16,
+          family: "Quicksand",
+        },
+      },
       datalabels: {
         color: "#ffffff",
         anchor: "end",
@@ -108,22 +130,15 @@ function Dashboard() {
           family: "Quicksand",
         },
         formatter: (value, context) => {
-          let total = context.chart.data.datasets[0].data.reduce(
-            (acc, val) => acc + val,
-            0
-          );
-          let percentage = ((value / total) * 100).toFixed(1) + "%";
-          return `${
-            context.chart.data.labels[context.dataIndex]
-          }: ${percentage}`;
+          return context.chart.data.labels[context.dataIndex];
         },
       },
     },
-  };
+  };  
 
   return (
-    <div className="db-container">
-      <div className="db-container-child">
+    <div className="page-container" style={{display: "flex"}}>
+      <div className="db-child">
         <table>
           <thead>
             <tr>
@@ -136,7 +151,7 @@ function Dashboard() {
           <tbody>{bodyRows}</tbody>
         </table>
       </div>
-      <div className="db-container-child">
+      <div className="db-child">
         <div className="chart">
           <Doughnut data={chartData} options={chartOptions} />
         </div>
