@@ -1,0 +1,51 @@
+table {
+  font-size: 1.3rem;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: var(--background-color-1);
+}
+
+tbody {
+  color: var(--primary-color-1);
+}
+
+td {
+  border: solid 1px var(--primary-color-1);
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
+.empty {
+  text-align: center;
+}
+
+.amount {
+  text-align: right;
+}
+
+.chart {
+  width: 35rem;
+}
+
+.db-container {
+  display: flex;
+  margin-top: 4rem;
+}
+
+.db-container-child {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.db-container-child:first-child {
+  flex: 0 0 55%;
+}
+
+.db-container-child:nth-child(2) {
+  flex: 0 0 45%;
+}

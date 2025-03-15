@@ -1,24 +1,13 @@
 header {
-    width: 100%;
     background-color: var(--background-color-0);
     height: 6.5rem;
+    align-items: center;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    padding-left: 2rem;
+    padding-right: 2rem;
 }
 
-button {
-    all: unset;
-    cursor: pointer;
-}
-
-.hl {
-    font-size: 4rem;
-    margin-left: 2rem;
-}
-
-.hr {
-    font-size: 1.3rem;
-    margin-right: 2rem;
-    text-decoration: underline;
+a {
+    color: inherit;
 }

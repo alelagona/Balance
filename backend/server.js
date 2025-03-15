@@ -23,7 +23,7 @@ app.listen(3000, () => {
 });
 
 //API
-app.get("/movements/:user_id/:year/:month", (req, res) => {
+app.get("/api/movements/:user_id/:year/:month", (req, res) => {
   const { user_id, year, month } = req.params;
 
   const query = `
@@ -45,13 +45,13 @@ app.get("/movements/:user_id/:year/:month", (req, res) => {
   });
 });
 
-app.get("/categories/:user_id/:year/:month", (req, res) => {
+app.get("/api/summary/:user_id/:year/:month", (req, res) => {
   const { user_id, year, month } = req.params;
 
   const query = `
     SELECT
       category AS name,
-      COUNT(*) AS value
+      SUM(amount) AS value
     FROM
       movements
     GROUP BY
