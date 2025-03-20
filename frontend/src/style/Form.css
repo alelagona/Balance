@@ -13,6 +13,16 @@ input {
   padding-left: 0.3rem;
   padding-right: 0.3rem;
   font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+input:hover,
+input[type="submit"]:hover,
+input[type="checkbox"]:hover,
+input:focus,
+input[type="submit"]:focus,
+input[type="checkbox"]:focus {
+  border-color: var(--secondary-color);
 }
 
 input[type="submit"] {
@@ -21,6 +31,10 @@ input[type="submit"] {
   border: 1px solid var(--primary-color);
   margin-top: 2rem;
   margin-bottom: 2.5rem;
+}
+
+input[type="submit"]:active {
+  background-color: var(--background-color-1);
 }
 
 form {
@@ -43,7 +57,7 @@ form {
   align-items: center;
 }
 
-.show-password-container input[type="checkbox"] {
+input[type="checkbox"] {
   height: 1rem;
   width: 1rem;
   margin: 0;
@@ -55,7 +69,7 @@ form {
   position: relative;
 }
 
-.show-password-container input[type="checkbox"]:checked::before {
+input[type="checkbox"]:checked::before {
   content: "\2713";
   position: absolute;
   top: 50%;
@@ -63,6 +77,6 @@ form {
   transform: translate(-50%, -50%);
 }
 
-.show-password-container input[type="checkbox"]:not(:checked) {
+input[type="checkbox"]:not(:checked) {
   background-color: transparent;
 }

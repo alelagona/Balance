@@ -8,8 +8,9 @@ exports.register = (req, res) => {
         VALUES (?, ?, ?, ?)
     `;
 
-    db.execute(query, [name, surname, email, password], (err, results) => {
-        if(err) {
+    db.execute(query, [name, surname, email, password], (err, _) => {
+        if (err) {
+            console.log(err);
             return res.status(500).json({ message: "An error occurred during registration process." });
         }
         

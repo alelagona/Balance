@@ -6,7 +6,7 @@ function HeadFoot() {
 
   return (
       <header>
-        <Link to="/" style={{ textDecoration: "none" }}>
+        <Link to="/" id="balance">
           <h1>Balance</h1>
         </Link>
         <nav>

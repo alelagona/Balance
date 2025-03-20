@@ -1,17 +1,32 @@
 header {
-    background-color: var(--background-color-0);
-    height: 6.5rem;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+  background-color: var(--background-color-0);
+  height: 6.5rem;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 a {
-    color: inherit;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+a:hover,
+a:focus {
+  color: var(--secondary-color);
+}
+
+#balance {
+  text-decoration: none;
+}
+
+#balance:hover,
+#balance:focus {
+  color: inherit;
 }

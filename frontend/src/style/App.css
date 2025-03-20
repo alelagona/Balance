@@ -6,6 +6,7 @@
     --background-color-1: #303030;
     --primary-color: rgba(255, 255, 255, 0.90);
     --primary-color-1: rgba(255, 255, 255, 0.70);
+    --secondary-color: #646cff;
     min-height: 100vh;
     position: relative;
 }

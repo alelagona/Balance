@@ -12,15 +12,18 @@ function Form({ register }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if(register) {
+    if (register) {
       const user = { name, surname, email, password };
-  
+
       fetch("http://localhost:3000/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(user),
+      }).then((response) => {
+        if (response.status === 500) alert("Server error");
+        else alert("Utente registrato");
       });
     }
   };
