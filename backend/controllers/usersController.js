@@ -59,17 +59,9 @@ export const login = async (req, res) => {
 
 		req.session.user = user;
 
-		res.status(200).send("User logged in");
+		res.status(200).json(user);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');
 	}
-}
-
-export const me = async (req, res) => {
-	if (!req.session.user) {
-		res.status(401).send("Not logged in");
-		return;
-	}
-	
 }

@@ -1,20 +1,19 @@
-table {
-  font-size: 1.3rem;
+#movements {
   border-collapse: collapse;
   padding-bottom: 0;
   margin-bottom: 0;
 }
 
-thead {
+#movements thead {
   background-color: var(--background-color-1);
   text-align: center;
 }
 
-tbody {
+#movements tbody {
   color: var(--primary-color-1);
 }
 
-td {
+#movements td {
   border: solid 1px var(--primary-color-1);
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
@@ -22,15 +21,11 @@ td {
   padding-right: 0.8rem;
 }
 
-.empty {
-  text-align: center;
-}
-
-.amount {
+#amount {
   text-align: right;
 }
 
-.chart {
+#chart {
   display: flex;
   width: 34rem;
   height: 100%;

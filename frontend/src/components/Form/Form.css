@@ -1,4 +1,4 @@
-input {
+#login-register input {
   outline: none;
   height: 3.2rem;
   width: 20rem;
@@ -12,11 +12,11 @@ input {
   margin-bottom: 1rem;
   padding-left: 0.3rem;
   padding-right: 0.3rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
   transition: all 0.3s ease;
 }
 
-input:hover,
+#login-register input:hover,
 input[type="submit"]:hover,
 input[type="checkbox"]:hover,
 input:focus,
@@ -25,7 +25,7 @@ input[type="checkbox"]:focus {
   border-color: var(--secondary-color);
 }
 
-input[type="submit"] {
+#login-register input[type="submit"] {
   height: 3rem;
   width: 10rem;
   border: 1px solid var(--primary-color);
@@ -33,17 +33,17 @@ input[type="submit"] {
   margin-bottom: 2.5rem;
 }
 
-input[type="submit"]:active {
+#login-register input[type="submit"]:active {
   background-color: var(--background-color-1);
 }
 
-form {
+#login-register {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.over-form {
+#over-form {
   display: flex;
   width: 20rem;
   min-height: 2rem;
@@ -54,7 +54,7 @@ form {
   color: red;
 }
 
-.show-password {
+#show-password {
   width: 20rem;
   height: 2rem;
   display: flex;
@@ -62,7 +62,7 @@ form {
   align-items: center;
 }
 
-input[type="checkbox"] {
+#login-register input[type="checkbox"] {
   height: 1rem;
   width: 1rem;
   margin: 0;
@@ -74,7 +74,14 @@ input[type="checkbox"] {
   position: relative;
 }
 
-input[type="checkbox"]:checked::before {
+#login-register input[type="checkbox"]:hover,
+#login-register input[type="checkbox"]:active,
+#login-register input[type="submit"]:hover,
+#login-register input[type="submit"]:active{
+  border-color: var(--secondary-color);
+}
+
+#login-register input[type="checkbox"]:checked::before {
   content: "\2713";
   position: absolute;
   top: 50%;
@@ -82,6 +89,33 @@ input[type="checkbox"]:checked::before {
   transform: translate(-50%, -50%);
 }
 
-input[type="checkbox"]:not(:checked) {
+#login-register input[type="checkbox"]:not(:checked) {
   background-color: transparent;
+}
+
+.under-submit {
+  display: flex;
+}
+
+.under-submit a {
+  padding-left: 0.4rem;
+  text-decoration: none;
+}
+
+.under-submit a h4 {
+  text-decoration: underline;
+  color: var(--primary-color);
+  transition: 0.3s ease all;
+}
+
+.under-submit a:hover h4,
+.under-submit a:active h4,
+.under-submit a:hover,
+.under-submit a:active {
+  color: var(--secondary-color);
+}
+
+#rules {
+  padding-left: 2.3rem;
+  margin-top: 0.5rem;
 }

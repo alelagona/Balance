@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { UserContext } from "../../context/UserContext";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import "./Form.css";
 
 function Form({ register }) {
+	const { user, setUser } = useContext(UserContext);
 	const [message, setMessage] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [name, setName] = useState("");
 	const [surname, setSurname] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
 
 	const validateEmail = (email) => {
 		return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -31,24 +35,27 @@ function Form({ register }) {
 		setMessage("");
 
 		if (!email || !password) {
-			setMessage("⚠ Tutti i campi sono obbligatori");
+			setMessage(<h4>&#9888; Tutti i campi sono obbligatori.</h4>);
 			window.scrollTo({ top: 0, behavior: "smooth" });
 			return;
 		}
 
 		if (register) {
 			if (!name || !surname) {
-				setMessage("⚠ Tutti i campi sono obbligatori");
+				setMessage(<h4>&#9888; Tutti i campi sono obbligatori.</h4>);
 				window.scrollTo({ top: 0, behavior: "smooth" });
 				return;
 			}
 			if (!validateEmail(email)) {
-				setMessage("⚠ Inserire un'email valida");
+				setMessage(
+					<h4>&#9888; Inserire un indirizzo e-mail valido.</h4>
+				);
+				window.scrollTo({ top: 0, behavior: "smooth" });
 				return;
 			}
 
 			if (password !== document.getElementById("password-conf").value) {
-				setMessage("⚠ Le password non coincidono");
+				setMessage(<h4>&#9888; Le password non coincidono.</h4>);
 				window.scrollTo({ top: 0, behavior: "smooth" });
 				return;
 			}
@@ -56,15 +63,18 @@ function Form({ register }) {
 			if (!validatePassword(password)) {
 				setMessage(
 					<div>
-						<h3>⚠ La password deve contenere almeno:</h3>
-						<ul>
-							<li>8 caratteri</li>
-							<li>Una lettera maiuscola</li>
-							<li>Un numero</li>
-							<li>
-								Un carattere speciale (come !, @, #, $, ecc.)
-							</li>
-						</ul>
+						<h4>
+							&#9888; La password deve contenere almeno:
+							<ul id="rules">
+								<li>8 caratteri</li>
+								<li>Una lettera maiuscola</li>
+								<li>Un numero</li>
+								<li>
+									Un carattere speciale (come !, @, #, $,
+									ecc.)
+								</li>
+							</ul>
+						</h4>
 					</div>
 				);
 				window.scrollTo({ top: 0, behavior: "smooth" });
@@ -74,47 +84,55 @@ function Form({ register }) {
 
 		if (register) {
 			try {
-				await axios.post("http://localhost:3000/register", { name, surname, email, password });
-				alert("Utente registrato con successo");
+				await axios.post("http://localhost:3000/register", {
+					name,
+					surname,
+					email,
+					password,
+				});
+				navigate("/login");
 			} catch (error) {
-				switch (error.response.status) {
-					case 409:
-						alert("Email già registrata");
-						break;
-					case 500:
-						alert("Errore del server");
-						break;
-					default:
-						alert("Errore sconosciuto");
+				if (error.response.status === 409) {
+					setMessage(<h4>&#9888; E-mail già in uso.</h4>);
+					window.scrollTo({ top: 0, behavior: "smooth" });
+					return;
+				}
+				if (error.response.status === 500) {
+					setMessage(<h4>&#9888; Il server non risponde.</h4>);
+					window.scrollTo({ top: 0, behavior: "smooth" });
+					return;
 				}
 			}
 		} else {
 			try {
-				await axios.post("http://localhost:3000/login", {email, password});
-				alert("Accesso riuscito");
+				const loggedUser = (
+					await axios.post("http://localhost:3000/login", {
+						email,
+						password,
+					})
+				).data;
+
+				setUser(loggedUser);
+				navigate("/dashboard");
 			} catch (error) {
-				switch (error.response.status) {
-					case 401:
-						alert("Credenziali errate");
-						break;
-					case 500:
-						alert("Errore del server");
-						break;
-					default:
-						alert("Errore sconosciuto");
+				if (error.response.status === 401) {
+					setMessage(<h4>&#9888; Credenziali errate.</h4>);
+					window.scrollTo({ top: 0, behavior: "smooth" });
+					return;
+				}
+				if (error.response.status === 500) {
+					setMessage(<h4>&#9888; Il server non risponde.</h4>);
+					window.scrollTo({ top: 0, behavior: "smooth" });
+					return;
 				}
 			}
 		}
 	};
 
 	return (
-		<div className="page-container">
-			<form onSubmit={handleSubmit}>
-				{message ? (
-					<div className="over-form">
-						<h3>{message}</h3>
-					</div>
-				) : null}
+		<div className="page">
+			<form onSubmit={handleSubmit} id="login-register">
+				{message ? <div id="over-form">{message}</div> : null}
 				{register ? (
 					<>
 						<input
@@ -157,34 +175,39 @@ function Form({ register }) {
 						placeholder="Conferma password"
 					/>
 				) : null}
-				<div className="show-password">
+				<div id="show-password">
 					<input
 						type="checkbox"
-						id="show-password"
+						id="show-password-check"
 						onClick={() => setShowPassword(!showPassword)}
 					/>
-					<label htmlFor="show-password">Mostra password</label>
+					<label htmlFor="show-password-check">
+						<h4>Mostra password</h4>
+					</label>
 				</div>
 				{register ? (
 					<>
 						<input type="submit" value="Registrati" />
-						<div>
-							Hai già un account?
-							<Link to="/login" style={{ paddingLeft: "0.4rem" }}>
-								Accedi
+						<div className="under-submit">
+							<h4>Hai già un account?</h4>
+							<Link
+								to="/login"
+								onClick={() => setMessage("")}
+							>
+								<h4>Accedi</h4>
 							</Link>
 						</div>
 					</>
 				) : (
 					<>
 						<input type="submit" value="Accedi" />
-						<div>
-							Non hai ancora un account?
+						<div className="under-submit">
+							<h4>Non hai ancora un account?</h4>
 							<Link
 								to="/register"
-								style={{ paddingLeft: "0.4rem" }}
+								onClick={() => setMessage("")}
 							>
-								Registrati
+								<h4>Registrati</h4>
 							</Link>
 						</div>
 					</>

@@ -12,21 +12,65 @@ header {
   right: 0;
 }
 
-a {
-  color: inherit;
+header h2 {
+  cursor: default;
+}
+
+#menu {
+  all: unset;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+#dropdown-menu {
+  position: absolute;
+	top: 4.3rem;
+	right: 2rem;
+	background-color: var(--background-color-1);
+	list-style: none;
+  padding: 0;
+}
+
+#dropdown-menu li {
+	cursor: pointer;
+  padding: 0.3rem 1.5rem 0.3rem 1.5rem;
+  border: 1px solid var(--primary-color-1);
   transition: all 0.3s ease;
 }
 
-a:hover,
-a:focus {
-  color: var(--secondary-color);
+#dropdown-menu li:active {
+  background-color: var(--background-color-2);
+}
+
+#dropdown-menu li:active,
+#dropdown-menu li:hover {
+  border-color: var(--secondary-color);
 }
 
 #balance {
   text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-#balance:hover,
+#balance:hover {
+  color: var(--primary-color-0);
+}
+
 #balance:focus {
   color: inherit;
+}
+
+#user {
+  display: flex;
+  align-items: center;
+}
+
+#user-icon {
+  font-size: 2rem;
+  transition: all 0.3s ease;
+}
+
+#user-icon:active,
+#user-icon:hover {
+  color: var(--secondary-color);
 }

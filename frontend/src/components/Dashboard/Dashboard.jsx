@@ -1,8 +1,10 @@
+import useUser from "../../hooks/useUser";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 axios.defaults.withCredentials = true;
@@ -11,38 +13,34 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 function Dashboard() {
 	const [movements, setMovements] = useState([]);
 	const [chartInfo, setChartInfo] = useState([]);
+	const navigate = useNavigate();
+	const { user } = useUser();
+	
+	useEffect(() => {
+		if (!user) {
+			navigate("/login");
+		}
+	}, [user, navigate]);
 
 	useEffect(() => {
-		const fetchData = async () => {
+		(async () => {
 			let res = await axios.get("http://localhost:3000/movements/2025/4");
 			setMovements(res.data);
 			res = await axios.get("http://localhost:3000/chartInfo/2025/4");
 			setChartInfo(res.data);
-		};
-
-		fetchData();
+		})();
 	}, []);
 
-	const bodyRows =
-		movements.length > 0 ? (
-			movements.map((movement, index) => {
-				return (
-					<tr key={index}>
-						<td>{movement.date}</td>
-						<td>{movement.description}</td>
-						<td>{movement.category}</td>
-						<td className="amount">{"€" + movement.amount}</td>
-					</tr>
-				);
-			})
-		) : (
-			<tr className="empty">
-				<td>-</td>
-				<td>-</td>
-				<td>-</td>
-				<td>-</td>
+	const bodyRows = movements.map((movement, index) => {
+		return (
+			<tr key={index}>
+				<td><h3>{movement.date}</h3></td>
+				<td><h3>{movement.description}</h3></td>
+				<td><h3>{movement.category}</h3></td>
+				<td className="amount"><h3>{"€" + movement.amount}</h3></td>
 			</tr>
 		);
+	});
 
 	const backgroundColors = [
 		"hsl(10, 70%, 60%)",
@@ -74,7 +72,7 @@ function Dashboard() {
 				data: chartInfo.map((category) => category.amount),
 				percentage: chartInfo.map((category) => category.percentage),
 				backgroundColor: backgroundColors,
-				borderColor: "#000000",
+				borderColor: "#181818",
 				borderWidth: 2,
 			},
 		],
@@ -124,7 +122,7 @@ function Dashboard() {
 				align: "end",
 				offset: 10,
 				font: {
-					size: 16,
+					size: 18,
 					family: "Quicksand",
 				},
 				formatter: (value, context) => {
@@ -135,25 +133,34 @@ function Dashboard() {
 	};
 
 	return (
-		<div className="page-container" style={{ display: "flex" }}>
-			<div className="db-child">
-				<table>
-					<thead>
-						<tr>
-							<td>Data</td>
-							<td>Descrizione</td>
-							<td>Categoria</td>
-							<td>Importo</td>
-						</tr>
-					</thead>
-					<tbody>{bodyRows}</tbody>
-				</table>
-			</div>
-			<div className="db-child">
-				<div className="chart">
-					<Doughnut data={chartData} options={chartOptions} />
-				</div>
-			</div>
+		<div className="page" style={{ display: "flex" }}>
+			{movements.length > 0 ? (
+				<>
+					<div className="db-child">
+						{console.log(movements.length > 0)}
+						<table id="movements">
+							<thead>
+								<tr>
+									<td><h3>Data</h3></td>
+									<td><h3>Descrizione</h3></td>
+									<td><h3>Categoria</h3></td>
+									<td><h3>Importo</h3></td>
+								</tr>
+							</thead>
+							<tbody>{bodyRows}</tbody>
+						</table>
+					</div>
+					<div className="db-child">
+						<div id="chart">
+							<Doughnut data={chartData} options={chartOptions} />
+						</div>
+					</div>
+				</>
+			) : (
+					<div>
+						<h2>Non hai ancora inserito nessun movimento.</h2>
+					</div>
+			)}
 		</div>
 	);
 }
