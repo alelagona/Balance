@@ -74,3 +74,8 @@ header h2 {
 #user-icon:hover {
   color: var(--secondary-color);
 }
+
+#logout {
+  all: unset;
+  cursor: pointer;
+}

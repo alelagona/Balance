@@ -1,12 +1,11 @@
-import { useContext } from "react";
-import { UserContext } from "../../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import useUser from '../../hooks/useUser';
 import axios from "axios";
 import "./Form.css";
 
 function Form({ register }) {
-	const { user, setUser } = useContext(UserContext);
+	const { setUserContext } = useUser();
 	const [message, setMessage] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [name, setName] = useState("");
@@ -112,7 +111,7 @@ function Form({ register }) {
 					})
 				).data;
 
-				setUser(loggedUser);
+				setUserContext(loggedUser);
 				navigate("/dashboard");
 			} catch (error) {
 				if (error.response.status === 401) {

@@ -32,17 +32,28 @@
   align-items: center;
 }
 
+#db {
+  display: flex;
+  width: 100%;
+}
+
 .db-child {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .db-child:first-child {
-  flex: 0 0 55%;
-  align-items: flex-start;
+  width: 55%;
+  align-items: center;
 }
 
 .db-child:nth-child(2) {
-  flex: 0 0 45%;
+  width: 45%;
   align-items: stretch;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
 }

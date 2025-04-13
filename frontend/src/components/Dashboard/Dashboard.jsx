@@ -15,14 +15,10 @@ function Dashboard() {
 	const [chartInfo, setChartInfo] = useState([]);
 	const navigate = useNavigate();
 	const { user } = useUser();
-	
-	useEffect(() => {
-		if (!user) {
-			navigate("/login");
-		}
-	}, [user, navigate]);
 
 	useEffect(() => {
+		if (!user) return;
+
 		(async () => {
 			let res = await axios.get("http://localhost:3000/movements/2025/4");
 			setMovements(res.data);
@@ -31,13 +27,31 @@ function Dashboard() {
 		})();
 	}, []);
 
+	if (!user) {
+		return (
+			<div className="page">
+				<div className="message">
+					<h2>Effettua l'accesso per visualizzare questa pagina.</h2>
+				</div>
+			</div>
+		);
+	}
+
 	const bodyRows = movements.map((movement, index) => {
 		return (
 			<tr key={index}>
-				<td><h3>{movement.date}</h3></td>
-				<td><h3>{movement.description}</h3></td>
-				<td><h3>{movement.category}</h3></td>
-				<td className="amount"><h3>{"€" + movement.amount}</h3></td>
+				<td>
+					<h3>{movement.date}</h3>
+				</td>
+				<td>
+					<h3>{movement.description}</h3>
+				</td>
+				<td>
+					<h3>{movement.category}</h3>
+				</td>
+				<td className="amount">
+					<h3>{"€" + movement.amount}</h3>
+				</td>
 			</tr>
 		);
 	});
@@ -133,18 +147,26 @@ function Dashboard() {
 	};
 
 	return (
-		<div className="page" style={{ display: "flex" }}>
+		<div className="page">
 			{movements.length > 0 ? (
-				<>
+				<div id="db">
 					<div className="db-child">
 						{console.log(movements.length > 0)}
 						<table id="movements">
 							<thead>
 								<tr>
-									<td><h3>Data</h3></td>
-									<td><h3>Descrizione</h3></td>
-									<td><h3>Categoria</h3></td>
-									<td><h3>Importo</h3></td>
+									<td>
+										<h3>Data</h3>
+									</td>
+									<td>
+										<h3>Descrizione</h3>
+									</td>
+									<td>
+										<h3>Categoria</h3>
+									</td>
+									<td>
+										<h3>Importo</h3>
+									</td>
 								</tr>
 							</thead>
 							<tbody>{bodyRows}</tbody>
@@ -155,11 +177,11 @@ function Dashboard() {
 							<Doughnut data={chartData} options={chartOptions} />
 						</div>
 					</div>
-				</>
+				</div>
 			) : (
-					<div>
-						<h2>Non hai ancora inserito nessun movimento.</h2>
-					</div>
+				<div className="message">
+					<h2>Nessun movimento registrato.</h2>
+				</div>
 			)}
 		</div>
 	);
