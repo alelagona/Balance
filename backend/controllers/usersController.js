@@ -32,7 +32,7 @@ export const login = async (req, res) => {
 	const { email, password } = req.body;
 
 	const query = `
-		SELECT password
+		SELECT *
 		FROM users
 		WHERE email = $1
 	`;
@@ -49,10 +49,27 @@ export const login = async (req, res) => {
 			res.status(401).send('Invalid password');
 			return;
 		}
-	
-		res.status(200).send('User logged in');
+
+		const user = {
+			id: result.rows[0].id,
+			name: result.rows[0].name,
+			surname: result.rows[0].surname,
+			email: result.rows[0].email, 
+		};
+
+		req.session.user = user;
+
+		res.status(200).send("User logged in");
 	} catch (error) {
 		console.log(error);
 		res.status(500).send('Internal server error');
 	}
+}
+
+export const me = async (req, res) => {
+	if (!req.session.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+	
 }

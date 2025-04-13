@@ -3,8 +3,9 @@ import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import axios from "axios";
-import "../style/Dashboard.css";
+import "./Dashboard.css";
 
+axios.defaults.withCredentials = true;
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 function Dashboard() {
@@ -13,9 +14,9 @@ function Dashboard() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			let res = await axios.get("http://localhost:3000/movements/9/2025/3");
+			let res = await axios.get("http://localhost:3000/movements/2025/4");
 			setMovements(res.data);
-			res = await axios.get("http://localhost:3000/chartInfo/9/2025/3");
+			res = await axios.get("http://localhost:3000/chartInfo/2025/4");
 			setChartInfo(res.data);
 		};
 

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
-import "../style/Form.css";
+import "./Form.css";
 
 function Form({ register }) {
 	const [message, setMessage] = useState("");
@@ -26,9 +26,9 @@ function Form({ register }) {
 	};
 
 	const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    setMessage("");
+		e.preventDefault();
+
+		setMessage("");
 
 		if (!email || !password) {
 			setMessage("⚠ Tutti i campi sono obbligatori");
@@ -73,13 +73,8 @@ function Form({ register }) {
 		}
 
 		if (register) {
-			const user = { name, surname, email, password };
-
 			try {
-				const res = await axios.post(
-					"http://localhost:3000/register",
-					user
-				);
+				await axios.post("http://localhost:3000/register", { name, surname, email, password });
 				alert("Utente registrato con successo");
 			} catch (error) {
 				switch (error.response.status) {
@@ -93,16 +88,11 @@ function Form({ register }) {
 						alert("Errore sconosciuto");
 				}
 			}
-    } else {
-      const user = { email, password };
-
-      try {
-        const res = await axios.post(
-					"http://localhost:3000/login",
-					user
-        );
+		} else {
+			try {
+				await axios.post("http://localhost:3000/login", {email, password});
 				alert("Accesso riuscito");
-      } catch (error) {
+			} catch (error) {
 				switch (error.response.status) {
 					case 401:
 						alert("Credenziali errate");
@@ -114,7 +104,7 @@ function Form({ register }) {
 						alert("Errore sconosciuto");
 				}
 			}
-    }
+		}
 	};
 
 	return (

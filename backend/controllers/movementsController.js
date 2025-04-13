@@ -1,7 +1,12 @@
 import pool from "../config/db.js";
 
-export const getMovements = async(req, res) => {
-	const { userId, year, month } = req.params;
+export const getMovements = async (req, res) => {
+	if (!req.session.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}	
+
+	const { year, month } = req.params;
 
 	const query = `
 		SELECT
@@ -18,7 +23,7 @@ export const getMovements = async(req, res) => {
 	`;
 
 	try {
-		const result = await pool.query(query, [userId, year, month])
+		const result = await pool.query(query, [req.session.user.id, year, month])
 		res.status(200).json(result.rows);
 	} catch (error) {
 		console.log(error);
@@ -27,7 +32,12 @@ export const getMovements = async(req, res) => {
 }
 
 export const getChartInfo = async (req, res) => {
-	const { userId, year, month } = req.params;
+	if (!req.session.user) {
+		res.status(401).send("Not logged in");
+		return;
+	}
+
+	const { year, month } = req.params;
 	
 	const query = `
 		SELECT
@@ -45,7 +55,7 @@ export const getChartInfo = async (req, res) => {
 	`;
 
 	try {
-		const result = await pool.query(query, [userId, year, month])
+		const result = await pool.query(query, [req.session.user.id, year, month])
 		res.status(200).json(result.rows);
 	} catch (error) {
 		console.log(error);
