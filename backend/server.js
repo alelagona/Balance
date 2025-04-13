@@ -1,17 +1,18 @@
-const express = require("express");
-const cors = require("cors");
-const movementsRoutes = require('./routes/movementsRoutes');
-const usersRoute = require("./routes/usersRoutes");
+import express from "express";
+import cors from "cors";
+import { getMovements, getChartInfo } from "./controllers/movementsController.js";
+import { register, login } from "./controllers/usersController.js";
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-app.use(movementsRoutes);
-app.use(usersRoute);
+app.get("/movements/:userId/:year/:month", getMovements);
+app.get("/chartInfo/:userId/:year/:month", getChartInfo);
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+app.post("/register", register);
+app.post("/login", login);
+
+app.listen(3000, () => {
+  console.log("Listening on port 3000");
 });

@@ -43,13 +43,18 @@ form {
   align-items: center;
 }
 
-.under-submit-container {
+.over-form {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  width: 20rem;
+  min-height: 2rem;
+  align-items: center;
+  border-left: 2px solid red;
+  margin-bottom: 2rem;
+  padding-left: 0.8rem;
+  color: red;
 }
 
-.show-password-container {
+.show-password {
   width: 20rem;
   height: 2rem;
   display: flex;

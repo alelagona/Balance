@@ -18,5 +18,13 @@
   "bugs": {
     "url": "https://github.com/alelagona/Balance/issues"
   },
-  "homepage": "https://github.com/alelagona/Balance#readme"
+  "homepage": "https://github.com/alelagona/Balance#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "install": "^0.13.0",
+    "npm": "^11.2.0"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.9"
+  }
 }

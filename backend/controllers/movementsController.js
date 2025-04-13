@@ -1,55 +1,54 @@
-const db = require("../config/db");
+import pool from "../config/db.js";
 
-exports.getMonthlyMovements = (req, res) => {
-    const { userId, year, month } = req.params;
+export const getMovements = async(req, res) => {
+	const { userId, year, month } = req.params;
 
-    const query = `
-        SELECT
-            DATE_FORMAT(date, '%d/%m/%Y') AS date,
-            description,
-            amount,
-            category
-        FROM
-            movements
-        WHERE
-            user_id = ?
-            AND YEAR(date) = ?
-            AND MONTH(date) = ?
-    `;
+	const query = `
+		SELECT
+			TO_CHAR(date, 'DD/MM/YYYY') AS date,
+			description,
+			category,
+			amount
+		FROM
+			movements
+		WHERE
+			user_id = $1
+			AND EXTRACT(YEAR FROM date) = $2
+			AND EXTRACT(MONTH FROM date) = $3
+	`;
 
-    db.execute(query, [userId, year, month], (err, results) => {
-        if (err)
-            return res.status(500).json({ message: "An error occurred during query execution." });
-        if(res.length === 0)
-            return res.status(404).json({ message: "No movements found." });
+	try {
+		const result = await pool.query(query, [userId, year, month])
+		res.status(200).json(result.rows);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
+}
 
-        return res.status(200).json(results)
-    });
-};
+export const getChartInfo = async (req, res) => {
+	const { userId, year, month } = req.params;
+	
+	const query = `
+		SELECT
+			category,
+			ROUND(SUM(amount) * 100 / (SELECT SUM(amount) FROM movements), 2) AS percentage,
+			SUM(amount) AS amount
+		FROM
+			movements
+		WHERE
+			user_id = $1
+			AND EXTRACT(YEAR FROM date) = $2
+			AND EXTRACT(MONTH FROM date) = $3
+		GROUP BY
+			category
+	`;
 
-exports.getCatExpenses = (req, res) => {
-    const { userId, year, month } = req.params;
-
-    const query = `
-        SELECT
-            category AS name,
-            SUM(amount) AS value
-        FROM
-            movements
-        WHERE
-            user_id = ?
-            AND YEAR(date) = ?
-            AND MONTH(date) = ?
-        GROUP BY
-            category
-    `;
-
-    db.execute(query, [userId, year, month], (err, results) => {
-        if(err)
-            return res.status(500).json({ message: "An error occurred during query execution." });
-        if(res.length === 0)
-            return res.status(404).json({ message: "No categories found." });
-
-        return res.status(200).json(results)
-    });
+	try {
+		const result = await pool.query(query, [userId, year, month])
+		res.status(200).json(result.rows);
+	} catch (error) {
+		console.log(error);
+		res.status(500).send('Internal server error');
+	}
 };
