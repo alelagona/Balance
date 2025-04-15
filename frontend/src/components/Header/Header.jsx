@@ -1,75 +1,75 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Header.css";
-import useUser from "../../hooks/useUser";
+import useUserContext from "../../hooks/useUserContext";
+import useSidebarContext from "../../hooks/useSidebarContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 function Header() {
 	const location = useLocation();
-	const { user, setUserContext } = useUser();
-	const [open, setOpen] = useState(false);
-	const menuRef = useRef(null);
+	const { user, setUserContext } = useUserContext();
+	const { open, setOpen } = useSidebarContext();
 	const navigate = useNavigate();
 
 	const logout = () => {
 		setUserContext(null);
-		navigate("/login");
+		navigate("/");
 	};
 
 	useEffect(() => {
-		function handleClickOutside(event) {
-			if (menuRef.current && !menuRef.current.contains(event.target))
-				setOpen(false);
+		{
+			open ? <div></div> : null;
 		}
-
-		window.addEventListener("click", handleClickOutside);
-		return () => {
-			window.removeEventListener("click", handleClickOutside);
-		};
-	}, []);
+	}, [open]);
 
 	useEffect(() => {
 		setOpen(false);
 	}, [user, location.pathname]);
 
 	return (
-		<header>
-			<Link to="/" id="balance">
-				<div id="balance">
-					<h1>Balance</h1>
-				</div>
-			</Link>
-			<nav>
-				{location.pathname === "/" || location.pathname === "/dashboard" && !user ? (
-					<Link to="/login" id="login-link">
-						<h2>Accedi</h2>
-					</Link>
-				) : location.pathname === "/dashboard" && user ? (
-					<div id="user">
-						<h2> {user.name}</h2>
-						<button
-							id="menu"
-							onClick={() => setOpen(!open)}
-							ref={menuRef}
-						>
-							<FontAwesomeIcon icon={faBars} id="user-icon" />
-						</button>
-						{open ? (
-							<ul id="dropdown-menu">
-								<li>
-									<h3>
-										<button id="logout" onClick={logout}>
-											Logout
-										</button>
-									</h3>
-								</li>
-							</ul>
-						) : null}
+		<>
+			<header>
+				<Link to="/" id="balance">
+					<div id="balance">
+						<h1>Balance</h1>
 					</div>
-				) : null}
-			</nav>
-		</header>
+				</Link>
+				<nav>
+					{!user ? (
+						<Link to="/login" id="login-link">
+							<h2>Accedi</h2>
+						</Link>
+					) : (
+						<>
+							<h2> {user.name}</h2>
+							<button
+								id="menu"
+								onClick={() => setOpen(!open)}
+							>
+								<FontAwesomeIcon icon={faBars} id="bars-icon" />
+							</button>
+						</>
+					)}
+				</nav>
+			</header>
+			<div id="sidenav" className={open ? `open` : ``}>
+				<ul>
+					<li>
+						<h3>Opzione</h3>
+					</li>
+					<li>
+						<h3>Opzione</h3>
+					</li>
+					<li>
+						<h3>Opzione</h3>
+					</li>
+					<li>
+						<h3><button onClick={logout}>Logout</button></h3>
+					</li>
+				</ul>
+			</div>
+		</>
 	);
 }
 

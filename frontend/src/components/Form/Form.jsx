@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import useUser from '../../hooks/useUser';
+import useUserContext from '../../hooks/useUserContext';
 import axios from "axios";
 import "./Form.css";
 
 function Form({ register }) {
-	const { setUserContext } = useUser();
+	const { setUserContext } = useUserContext();
 	const [message, setMessage] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const [name, setName] = useState("");

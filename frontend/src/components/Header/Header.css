@@ -16,37 +16,6 @@ header h2 {
   cursor: default;
 }
 
-#menu {
-  all: unset;
-  cursor: pointer;
-  margin-left: 1rem;
-}
-
-#dropdown-menu {
-  position: absolute;
-	top: 4.3rem;
-	right: 2rem;
-	background-color: var(--background-color-1);
-	list-style: none;
-  padding: 0;
-}
-
-#dropdown-menu li {
-	cursor: pointer;
-  padding: 0.3rem 1.5rem 0.3rem 1.5rem;
-  border: 1px solid var(--primary-color-1);
-  transition: all 0.3s ease;
-}
-
-#dropdown-menu li:active {
-  background-color: var(--background-color-2);
-}
-
-#dropdown-menu li:active,
-#dropdown-menu li:hover {
-  border-color: var(--secondary-color);
-}
-
 #balance {
   text-decoration: none;
   transition: all 0.3s ease;
@@ -56,26 +25,76 @@ header h2 {
   color: var(--primary-color-0);
 }
 
+#balance:active {
+  color: var(--secondary-color);
+}
+
 #balance:focus {
   color: inherit;
 }
 
-#user {
+nav {
   display: flex;
   align-items: center;
 }
 
-#user-icon {
-  font-size: 2rem;
+#menu {
   transition: all 0.3s ease;
+  all: unset;
+  cursor: pointer;
+  margin-left: 1.2rem;
 }
 
-#user-icon:active,
-#user-icon:hover {
+#bars-icon {
+  font-size: 1.7rem;
+}
+
+#menu:active,
+#menu:hover {
   color: var(--secondary-color);
 }
 
-#logout {
+#sidenav {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  top: 6.5rem;
+  background-color: var(--background-color-0);
+  width: 18rem;
+  transform: translateX(100%);
+  opacity: 0;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  padding: 0;
+  margin: 0;
+}
+
+#sidenav.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+#sidenav li {
+  margin: 1.2rem 2rem;
+  padding: 0.8rem 1.2rem;
+  border-radius: 0.6rem;
+  transition: all 0.3s ease;
+}
+
+#sidenav li:hover {
+  background-color: var(--background-color);
+}
+
+#sidenav li:active {
+  color: var(--secondary-color);
+}
+
+#sidenav ul {
+  padding: 0;
+  list-style: none;
+  text-align: right;
+  transition: all 0.3 ease;
+}
+
+#sidenav ul button {
   all: unset;
-  cursor: pointer;
 }

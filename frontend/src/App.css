@@ -63,3 +63,9 @@ a:focus {
 	padding-top: 10.5rem;
 	padding-bottom: 8rem;
 }
+
+.page-reduced {
+	padding-top: 10.5rem;
+	padding-bottom: 8rem;
+	width: calc(100vw - 19rem);
+}

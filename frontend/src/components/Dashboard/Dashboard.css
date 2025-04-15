@@ -44,12 +44,12 @@
 }
 
 .db-child:first-child {
-  width: 55%;
+  width: 60%;
   align-items: center;
 }
 
 .db-child:nth-child(2) {
-  width: 45%;
+  width: 40%;
   align-items: stretch;
 }
 

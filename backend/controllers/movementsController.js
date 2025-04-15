@@ -20,6 +20,8 @@ export const getMovements = async (req, res) => {
 			user_id = $1
 			AND EXTRACT(YEAR FROM date) = $2
 			AND EXTRACT(MONTH FROM date) = $3
+		ORDER BY
+			date
 	`;
 
 	try {
@@ -51,6 +53,8 @@ export const getChartInfo = async (req, res) => {
 			AND EXTRACT(YEAR FROM date) = $2
 			AND EXTRACT(MONTH FROM date) = $3
 		GROUP BY
+			category
+		ORDER BY
 			category
 	`;
 

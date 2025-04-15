@@ -1,10 +1,10 @@
-import useUser from "../../hooks/useUser";
+import useUserContext from "../../hooks/useUserContext";
+import useSidebarContext from "../../hooks/useSidebarContext";
 import { useEffect, useState } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
 axios.defaults.withCredentials = true;
@@ -13,8 +13,8 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 function Dashboard() {
 	const [movements, setMovements] = useState([]);
 	const [chartInfo, setChartInfo] = useState([]);
-	const navigate = useNavigate();
-	const { user } = useUser();
+	const { user } = useUserContext();
+	const { open } = useSidebarContext();
 
 	useEffect(() => {
 		if (!user) return;
@@ -136,7 +136,7 @@ function Dashboard() {
 				align: "end",
 				offset: 10,
 				font: {
-					size: 18,
+					size: 16,
 					family: "Quicksand",
 				},
 				formatter: (value, context) => {
@@ -147,7 +147,8 @@ function Dashboard() {
 	};
 
 	return (
-		<div className="page">
+		<div className={open ? "page-reduced" : "page"}  >
+			{console.log(open)}
 			{movements.length > 0 ? (
 				<div id="db">
 					<div className="db-child">
