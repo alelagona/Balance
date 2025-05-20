@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import useUserContext from '../../hooks/useUserContext';
+import useUserContext from "../../hooks/useUserContext";
 import axios from "axios";
 import "./Form.css";
 
@@ -12,6 +12,7 @@ function Form({ register }) {
 	const [surname, setSurname] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [passwordConf, setPasswordConf] = useState("");
 	const navigate = useNavigate();
 
 	const validateEmail = (email) => {
@@ -53,7 +54,7 @@ function Form({ register }) {
 				return;
 			}
 
-			if (password !== document.getElementById("password-conf").value) {
+			if (password !== passwordConf) {
 				setMessage(<h4>&#9888; Le password non coincidono.</h4>);
 				window.scrollTo({ top: 0, behavior: "smooth" });
 				return;
@@ -83,7 +84,7 @@ function Form({ register }) {
 
 		if (register) {
 			try {
-				await axios.post("http://localhost:3000/register", {
+				await axios.post("http://localhost:3000/auth/register", {
 					name,
 					surname,
 					email,
@@ -105,12 +106,12 @@ function Form({ register }) {
 		} else {
 			try {
 				const loggedUser = (
-					await axios.post("http://localhost:3000/login", {
+					await axios.post("http://localhost:3000/auth/login", {
 						email,
 						password,
 					})
 				).data;
-
+				console.log(loggedUser);
 				setUserContext(loggedUser);
 				navigate("/dashboard");
 			} catch (error) {
@@ -172,6 +173,7 @@ function Form({ register }) {
 						name="password-conf"
 						id="password-conf"
 						placeholder="Conferma password"
+						onChange={(e) => setPasswordConf(e.target.value)}
 					/>
 				) : null}
 				<div id="show-password">
@@ -189,10 +191,7 @@ function Form({ register }) {
 						<input type="submit" value="Registrati" />
 						<div className="under-submit">
 							<h4>Hai già un account?</h4>
-							<Link
-								to="/login"
-								onClick={() => setMessage("")}
-							>
+							<Link to="/login" onClick={() => setMessage("")}>
 								<h4>Accedi</h4>
 							</Link>
 						</div>
@@ -202,10 +201,7 @@ function Form({ register }) {
 						<input type="submit" value="Accedi" />
 						<div className="under-submit">
 							<h4>Non hai ancora un account?</h4>
-							<Link
-								to="/register"
-								onClick={() => setMessage("")}
-							>
+							<Link to="/register" onClick={() => setMessage("")}>
 								<h4>Registrati</h4>
 							</Link>
 						</div>

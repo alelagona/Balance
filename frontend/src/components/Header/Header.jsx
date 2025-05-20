@@ -56,15 +56,6 @@ function Header() {
 			<div id="sidenav" className={open ? `open` : ``}>
 				<ul>
 					<li>
-						<h3>Opzione</h3>
-					</li>
-					<li>
-						<h3>Opzione</h3>
-					</li>
-					<li>
-						<h3>Opzione</h3>
-					</li>
-					<li>
 						<h3><button onClick={logout}>Logout</button></h3>
 					</li>
 				</ul>

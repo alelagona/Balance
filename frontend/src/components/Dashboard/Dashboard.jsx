@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 function Dashboard() {
-	const [movements, setMovements] = useState([]);
+	const [transactions, setTransactions] = useState([]);
 	const [chartInfo, setChartInfo] = useState([]);
 	const { user } = useUserContext();
 	const { open } = useSidebarContext();
@@ -20,9 +20,9 @@ function Dashboard() {
 		if (!user) return;
 
 		(async () => {
-			let res = await axios.get("http://localhost:3000/movements/2025/4");
-			setMovements(res.data);
-			res = await axios.get("http://localhost:3000/chartInfo/2025/4");
+			let res = await axios.get("http://localhost:3000/transactions/getTransactions/2025/4");
+			setTransactions(res.data);
+			res = await axios.get("http://localhost:3000/transactions/getChartInfo/2025/4");
 			setChartInfo(res.data);
 		})();
 	}, []);
@@ -37,7 +37,7 @@ function Dashboard() {
 		);
 	}
 
-	const bodyRows = movements.map((movement, index) => {
+	const bodyRows = transactions.map((movement, index) => {
 		return (
 			<tr key={index}>
 				<td>
@@ -139,7 +139,7 @@ function Dashboard() {
 					size: 16,
 					family: "Quicksand",
 				},
-				formatter: (value, context) => {
+				formatter: (_, context) => {
 					return context.chart.data.labels[context.dataIndex];
 				},
 			},
@@ -148,12 +148,10 @@ function Dashboard() {
 
 	return (
 		<div className={open ? "page-reduced" : "page"}  >
-			{console.log(open)}
-			{movements.length > 0 ? (
+			{transactions.length > 0 ? (
 				<div id="db">
 					<div className="db-child">
-						{console.log(movements.length > 0)}
-						<table id="movements">
+						<table id="transactions">
 							<thead>
 								<tr>
 									<td>

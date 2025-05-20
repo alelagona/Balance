@@ -1,19 +1,19 @@
-#movements {
+#transactions {
   border-collapse: collapse;
   padding-bottom: 0;
   margin-bottom: 0;
 }
 
-#movements thead {
+#transactions thead {
   background-color: var(--background-color-1);
   text-align: center;
 }
 
-#movements tbody {
+#transactions tbody {
   color: var(--primary-color-1);
 }
 
-#movements td {
+#transactions td {
   border: solid 1px var(--primary-color-1);
   padding-top: 0.6rem;
   padding-bottom: 0.6rem;
